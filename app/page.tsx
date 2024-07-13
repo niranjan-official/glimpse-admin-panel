@@ -5,6 +5,8 @@ import { db } from "@/firebase/config";
 import { Media, MediaObject, Settings } from "@/types";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
+export const revalidate = 0;
+
 const getMedia = async () => {
   try {
     let mediaArray: MediaObject[] = [];
