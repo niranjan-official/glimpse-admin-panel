@@ -44,14 +44,13 @@ const getSettings = async (): Promise<Settings | undefined> => {
 };
 export default async function Home() {
   const [media, settings] = await Promise.all([getMedia(), getSettings()]);
-  console.log(media);
 
   return (
     <div className="flex flex-col p-4 pb-16 pt-24 text-black">
       <div className="flex flex-wrap gap-4">
         <DisplayBlock
           header="Images"
-          title="12"
+          count={media?.length}
           subtitle="Total images avilable"
           color="bg-primary-green"
         />
