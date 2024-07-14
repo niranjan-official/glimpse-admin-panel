@@ -1,5 +1,7 @@
 import DisplayBlock from "@/components/DisplayBlock";
+import IntervalBlock from "@/components/DisplayBlocks/IntervalBlock";
 import ModeBlock from "@/components/DisplayBlocks/ModeBlock";
+import RefreshBlock from "@/components/DisplayBlocks/RefreshBlock";
 import MediaList from "@/components/MediaList";
 import { db } from "@/firebase/config";
 import { Media, MediaObject, Settings } from "@/types";
@@ -54,18 +56,8 @@ export default async function Home() {
           color="bg-primary-green"
         />
         <ModeBlock currentMode={settings?.displayMode} />
-        <DisplayBlock
-          header="Interval"
-          title="5sec"
-          subtitle="Time between slides"
-          color="bg-primary-yellow"
-        />
-        <DisplayBlock
-          header="Refresh"
-          title="</>"
-          subtitle="Click to refresh page"
-          color="bg-primary-blue"
-        />
+        <IntervalBlock currentInterval={settings?.carouselInterval} />
+        <RefreshBlock/>
       </div>
       <MediaList media={media} settings={settings} />
     </div>

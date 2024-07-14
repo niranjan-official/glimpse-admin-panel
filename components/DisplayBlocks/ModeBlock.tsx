@@ -85,6 +85,7 @@ const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
               </div>
               <div className="flex w-full justify-center gap-4">
                 <Button
+                  disabled={load}
                   className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 shadow"
                   onClick={() => setIsOpen(false)}
                 >

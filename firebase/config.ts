@@ -1,10 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBnYskB5bghg4O3DYQd4arGdxgiS0UEogE",
   authDomain: "glimpse-prc.firebaseapp.com",
+  databaseURL: "https://glimpse-prc-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "glimpse-prc",
   storageBucket: "glimpse-prc.appspot.com",
   messagingSenderId: "794325041221",
@@ -13,5 +15,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const rtdb = getDatabase(app);
 
-export { db };
+export { db, app, rtdb };
