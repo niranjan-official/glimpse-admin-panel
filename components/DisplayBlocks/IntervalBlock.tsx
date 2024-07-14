@@ -20,13 +20,16 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
   const changeInterval = async () => {
     setLoad(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-interval`, {
-        method: "POST",
-        body: JSON.stringify(newInterval),
-        headers: {
-          "content-type": "application/json",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-interval`,
+        {
+          method: "POST",
+          body: JSON.stringify(newInterval),
+          headers: {
+            "content-type": "application/json",
+          },
         },
-      });
+      );
       if (res.ok) {
         setInterval(newInterval);
         setIsOpen(false);
@@ -58,7 +61,7 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
           <AlertDialogContent className="bg-background" asChild>
             <div className="flex flex-col items-center justify-center text-black">
               <AlertDialogTitle>
-                <p className="text-2xl">Set Carousel Interval</p>
+                <p className="text-center text-2xl">Set Carousel Interval</p>
               </AlertDialogTitle>
               <div className="flex w-full items-center justify-center gap-4">
                 <Button className="" onClick={handleMinus}>
@@ -68,7 +71,7 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
                   value={newInterval}
                   onChange={(e) => setNewInterval(parseInt(e.target.value, 10))}
                   type="number"
-                  className="w-12 border border-neutral-600 bg-transparent p-2 px-4 text-center text-2xl font-bold"
+                  className="w-12 rounded-[0.3rem] border border-neutral-600 bg-transparent py-2 text-center text-2xl font-bold"
                 />
                 <Button
                   className=""

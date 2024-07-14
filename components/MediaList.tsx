@@ -53,7 +53,7 @@ const MediaList = ({ media, settings }: MediaListProps) => {
           Single
         </button>
       </div>
-      <div className="mt-4 flex flex-wrap gap-2 bg-white p-2">
+      <div className="mt-4 flex flex-wrap gap-2 bg-white p-2 shadow">
         {filteredMedia?.map((media, index) => (
           <MediaBlock key={index} src={media.imgSrc} />
         ))}
