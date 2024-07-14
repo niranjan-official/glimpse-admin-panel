@@ -29,7 +29,7 @@ const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
   const changeMode = async () => {
     setLoad(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/update-mode`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-mode`, {
         method: "POST",
         body: JSON.stringify(newMode),
         headers: {

@@ -20,7 +20,7 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
   const changeInterval = async () => {
     setLoad(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/update-interval`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-interval`, {
         method: "POST",
         body: JSON.stringify(newInterval),
         headers: {
