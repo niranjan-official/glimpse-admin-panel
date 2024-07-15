@@ -7,7 +7,7 @@ interface DisplayBlock {
   count?: number;
   subtitle?: string;
 }
-const DisplayBlock = ({ color, header, count, subtitle }: DisplayBlock) => {
+const DisplayBlock = ({ color, header, count, subtitle }: DisplayBlock) => { 
   return (
     <div
       className={`flex h-32 w-[calc(50%-0.5rem)] flex-col justify-between rounded-[0.7rem] p-4 text-white/80 shadow-md ${color}`}
