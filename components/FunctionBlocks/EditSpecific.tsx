@@ -88,7 +88,7 @@ const EditSpecific = ({
               Click on the images which is to be selected
             </p>
           </AlertDialogTitle>
-          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-4 overflow-y-scroll">
+          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 overflow-y-scroll bg-white shadow p-2">
             {!media[0] ? (
               <AiOutlineLoading
                 size={20}
@@ -101,7 +101,7 @@ const EditSpecific = ({
                   <button
                     onClick={() => handleSpecific(image.key, selected)}
                     key={index}
-                    className="relative flex h-24 w-[calc(50%-0.5rem)] justify-center bg-zinc-800"
+                    className="relative flex h-20 w-[calc(50%-0.25rem)] justify-center bg-zinc-800"
                   >
                     <Image
                       width={100}

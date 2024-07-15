@@ -78,7 +78,7 @@ const EditSingle = ({
               Click on the image which is to be selected
             </p>
           </AlertDialogTitle>
-          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-4 overflow-y-scroll">
+          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 p-2 bg-white shadow overflow-y-scroll">
             {!media[0] ? (
               <AiOutlineLoading
                 size={20}
@@ -91,7 +91,7 @@ const EditSingle = ({
                   <button
                     onClick={() => setSelectedImage(image.key)}
                     key={index}
-                    className="relative flex h-24 w-[calc(50%-0.5rem)] justify-center bg-zinc-800"
+                    className="relative flex h-20 w-[calc(50%-0.25rem)] justify-center bg-zinc-800"
                   >
                     <Image
                       width={100}

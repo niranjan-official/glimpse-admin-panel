@@ -54,9 +54,15 @@ const MediaList = ({ media, settings }: MediaListProps) => {
         </button>
       </div>
       <div className="mt-4 flex flex-wrap gap-2 bg-white p-2 shadow">
-        {filteredMedia?.map((media, index) => (
+        {
+          !filteredMedia[0] ? (
+            <p className="text-3xl font-extrabold text-neutral-300 text-center ">No Images</p>
+          ):(
+        filteredMedia.map((media, index) => (
           <MediaBlock key={index} src={media.imgSrc} />
-        ))}
+        ))
+          )
+        }
       </div>
     </div>
   );
