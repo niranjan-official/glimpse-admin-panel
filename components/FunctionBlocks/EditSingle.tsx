@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdModeEditOutline } from "react-icons/md";
 import {
   AlertDialog,
@@ -22,6 +22,12 @@ const EditSingle = ({
   const [isOpen, setIsOpen] = useState(false);
   const [load, setLoad] = useState(false);
   const [selectedImage, setSelectedImage] = useState(settings.singleMediaStore);
+
+  useEffect(()=>{
+    if(!isOpen){
+        setSelectedImage(settings.singleMediaStore);
+    }
+  },[isOpen])
 
   const editSingle = async () => {
     setLoad(true);
@@ -90,7 +96,7 @@ const EditSingle = ({
                     <Image
                       width={100}
                       height={70}
-                      className={`h-full w-auto ${selected && "opacity-50"}`}
+                      className={`h-full w-auto ${selected && "opacity-40"}`}
                       src={image.imgSrc}
                       alt="..."
                     />
@@ -117,7 +123,8 @@ const EditSingle = ({
           </div>
           <div className="flex w-full justify-center gap-4">
             <Button
-              className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 shadow"
+              disabled={load}
+              className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 disabled:text-neutral-500 shadow"
               onClick={() => setIsOpen(false)}
             >
               Cancel

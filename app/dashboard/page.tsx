@@ -72,8 +72,7 @@ const page = async () => {
       <div className="mt-4 flex w-full flex-col gap-4">
         <EditSingle media={media} settings={settings} />
         <EditSpecific media={media} settings={settings} />
-        <DeleteMedia />
-        <DeleteMedia />
+        <DeleteMedia media={media} settings={settings} />
       </div>
     </div>
   );

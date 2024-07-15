@@ -88,7 +88,8 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
               </p>
               <div className="flex w-full justify-center gap-4">
                 <Button
-                  className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 shadow"
+                  disabled={load}
+                  className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 disabled:text-neutral-500 shadow"
                   onClick={() => setIsOpen(false)}
                 >
                   Cancel
