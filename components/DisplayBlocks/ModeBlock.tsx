@@ -34,7 +34,7 @@ const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
         {
           method: "POST",
           body: JSON.stringify({
-            data: newMode === "specific" ? "multiple" : "newMode",
+            data: newMode === "specific" ? "multiple" : newMode,
             fieldName: "displayMode",
           }),
           headers: {
