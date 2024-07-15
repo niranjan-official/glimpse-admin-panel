@@ -71,7 +71,7 @@ const page = async () => {
       <MediaUpload addImage={addImage} />
       <div className="mt-4 flex w-full flex-col gap-4">
         <EditSingle media={media} settings={settings} />
-        <EditSpecific />
+        <EditSpecific media={media} settings={settings} />
         <DeleteMedia />
         <DeleteMedia />
       </div>

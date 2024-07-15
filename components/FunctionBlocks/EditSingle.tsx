@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdModeEditOutline } from "react-icons/md";
 import {
   AlertDialog,
@@ -26,13 +26,19 @@ const EditSingle = ({
   const editSingle = async () => {
     setLoad(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-singlemediastore`, {
-        method: "POST",
-        body: JSON.stringify(selectedImage),
-        headers: {
-          "content-type": "application/json",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-settings`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            data: selectedImage,
+            fieldName: 'singleMediaStore'
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
         },
-      });
+      );
       if (res.ok) {
         setIsOpen(false);
       }
@@ -97,7 +103,7 @@ const EditSingle = ({
                         strokeWidth={2}
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-checks text-white absolute left-[50%] top-[50%]"
+                        className="icon icon-tabler icons-tabler-outline icon-tabler-checks absolute left-[50%] top-[50%] text-white"
                       >
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M7 12l5 5l10 -10" />

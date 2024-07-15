@@ -4,12 +4,14 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: any) {
   const value = await req.json();
-  const interval = parseInt(value,10);
+  
+  const data = value.data;
+  const fieldName = value.fieldName;
 
   const settingsRef = doc(db, "settings", "general");
   await updateDoc(settingsRef, {
-    carouselInterval: interval,
+    [fieldName]: data,
   });
 
-  return NextResponse.json({ message: "Mode updated successfully" });
+  return NextResponse.json({ message: "Data updated successfully" });
 }

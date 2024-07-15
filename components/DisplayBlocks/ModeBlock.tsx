@@ -29,13 +29,19 @@ const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
   const changeMode = async () => {
     setLoad(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-mode`, {
-        method: "POST",
-        body: JSON.stringify(newMode),
-        headers: {
-          "content-type": "application/json",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-settings`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            data: newMode === "specific" ? "multiple" : "newMode",
+            fieldName: "displayMode",
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
         },
-      });
+      );
       if (res.ok) {
         setMode(newMode);
         setIsOpen(false);

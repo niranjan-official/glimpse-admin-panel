@@ -21,10 +21,13 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
     setLoad(true);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-interval`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-settings`,
         {
           method: "POST",
-          body: JSON.stringify(newInterval),
+          body: JSON.stringify({
+            data: newInterval,
+            fieldName: 'carouselInterval'
+          }),
           headers: {
             "content-type": "application/json",
           },
