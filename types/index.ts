@@ -3,7 +3,8 @@ export interface Media {
 }
 export interface MediaObject {
   key: string,
-  imgSrc: string
+  imgSrc: string,
+  imgRef?: string
 }
   export interface Settings {
     carouselInterval: number,

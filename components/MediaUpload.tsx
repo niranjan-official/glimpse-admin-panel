@@ -8,10 +8,13 @@ import { MdFileUpload } from "react-icons/md";
 import { storage } from "@/firebase/config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { AiOutlineLoading } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 const MediaUpload = ({ addImage }) => {
   const [images, setImages] = useState<any>([]);
   const [uploading, setUploading] = useState(false);
+
+  const Router = useRouter();
 
   const onDrop = useCallback((acceptedFiles: any) => {
     acceptedFiles.map((file: any) => {
@@ -32,7 +35,7 @@ const MediaUpload = ({ addImage }) => {
   const uploadFiles = async () => {
     setUploading(true);
     const uploadPromises = images.map((image: any) => {
-      const storageRef = ref(storage, `images/${image.id}`);
+      const storageRef = ref(storage, `images/img-${image.id}`);
       const uploadTask = uploadBytesResumable(storageRef, image.file);
 
       return new Promise((resolve, reject) => {
@@ -59,9 +62,10 @@ const MediaUpload = ({ addImage }) => {
             getDownloadURL(uploadTask.snapshot.ref).then(
               async (downloadURL) => {
                 console.log("File available at", downloadURL);
-                const res = await addImage(downloadURL);
+                const res = await addImage({imgSrc: downloadURL, imgRef: `img-${image.id}`});
                 if (res.ok) {
                   console.log("Image added successfully");
+                  Router.refresh();
                 }
                 resolve(downloadURL);
               },
@@ -93,6 +97,7 @@ const MediaUpload = ({ addImage }) => {
         >
           Upload
           {uploading ? (
+
             <AiOutlineLoading
               size={20}
               className="animate-spin text-white/80 ml-2"

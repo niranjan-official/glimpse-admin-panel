@@ -19,7 +19,7 @@ const DropZone = ({ onDrop, accept }) => {
             </p>
           ) : (
             <p className="font-bold text-blue-950 mt-2">
-              Drop your image here, or <span className="text-primary-blue">browse</span>
+              Drop your image here, or <span className="text-primary-blue cursor-pointer">browse</span>
             </p>
           )}
           <p className="text-sm text-neutral-400">Supports JPG, JPEG, PNG</p>
