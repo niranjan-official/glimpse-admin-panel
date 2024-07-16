@@ -73,6 +73,7 @@ const MediaUpload = ({ addImage }) => {
                   Router.refresh();
                   toast({
                     title: "Images have been added successfully",
+                    className: "text-black"
                   });
                 }
                 resolve(downloadURL);
