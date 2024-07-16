@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AiOutlineLoading } from "react-icons/ai";
+import { useToast } from "../ui/use-toast";
 
 const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
   const [mode, setMode] = useState(currentMode);
@@ -25,6 +26,7 @@ const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
     currentMode === "multiple" ? "specific" : currentMode,
   );
   const [load, setLoad] = useState(false);
+  const { toast } = useToast();
 
   const changeMode = async () => {
     setLoad(true);
@@ -45,10 +47,19 @@ const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
       if (res.ok) {
         setMode(newMode);
         setIsOpen(false);
+        toast({
+          title: "Mode updation successfull",
+          description: `Mode has been updated to '${newMode}'`,
+          className: "text-black",
+        });
       }
     } catch (error) {
       console.log(error);
-      alert("Error Occured !");
+      toast({
+        variant: "destructive",
+        title: "Error Occured",
+        description: error.message,
+      });
     }
     setLoad(false);
   };
@@ -92,7 +103,7 @@ const ModeBlock = ({ currentMode }: { currentMode?: string }) => {
               <div className="flex w-full justify-center gap-4">
                 <Button
                   disabled={load}
-                  className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 disabled:text-neutral-500 shadow"
+                  className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 shadow disabled:text-neutral-500"
                   onClick={() => setIsOpen(false)}
                 >
                   Cancel

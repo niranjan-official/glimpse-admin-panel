@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Tab from "@/components/Tab";
+import { Toaster } from "@/components/ui/toaster"
 
 const poppins = Poppins({ subsets: ["latin"], weight: '400' });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <Header/>
         {children}
         <Tab/>
+        <Toaster />
       </body>
     </html>
   );

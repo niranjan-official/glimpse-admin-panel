@@ -11,6 +11,8 @@ import { Button } from "../ui/button";
 import { AiOutlineLoading } from "react-icons/ai";
 import Image from "next/image";
 import { MediaObject, Settings } from "@/types";
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 
 const EditSpecific = ({
   media,
@@ -24,12 +26,14 @@ const EditSpecific = ({
   const [selectedImages, setSelectedImages] = useState(
     settings.multiMediaStore,
   );
+  const Router = useRouter();
+  const { toast } = useToast();
 
-  useEffect(()=>{
-    if(!isOpen){
-        setSelectedImages(settings.multiMediaStore);
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedImages(settings.multiMediaStore);
     }
-  },[isOpen])
+  }, [isOpen]);
 
   const editSpecific = async () => {
     setLoad(true);
@@ -40,7 +44,7 @@ const EditSpecific = ({
           method: "POST",
           body: JSON.stringify({
             data: selectedImages,
-            fieldName: 'multiMediaStore'
+            fieldName: "multiMediaStore",
           }),
           headers: {
             "content-type": "application/json",
@@ -49,19 +53,29 @@ const EditSpecific = ({
       );
       if (res.ok) {
         setIsOpen(false);
+        Router.refresh();
+        toast({
+          title: "Edit: 'Specific' mode",
+          description: "Images in 'specific' have been successfully edited.",
+          className: "text-black",
+        });
       }
     } catch (error) {
       console.log(error);
-      alert("Error Occured !");
+      toast({
+        variant: "destructive",
+        title: "Error Occured",
+        description: error.message,
+      });
     }
     setLoad(false);
   };
 
   const handleSpecific = (key: string, selected: boolean) => {
-    if(selected){
-        setSelectedImages((prevArray) => prevArray.filter(str => str !== key));
-    }else{
-        setSelectedImages((prevArray) => [...prevArray, key]);
+    if (selected) {
+      setSelectedImages((prevArray) => prevArray.filter((str) => str !== key));
+    } else {
+      setSelectedImages((prevArray) => [...prevArray, key]);
     }
   };
 
@@ -88,7 +102,7 @@ const EditSpecific = ({
               Click on the images which is to be selected
             </p>
           </AlertDialogTitle>
-          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 overflow-y-scroll bg-white shadow p-2">
+          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 overflow-y-scroll bg-white p-2 shadow">
             {!media[0] ? (
               <AiOutlineLoading
                 size={20}
@@ -119,7 +133,7 @@ const EditSpecific = ({
                         strokeWidth={2}
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-checks absolute left-[50%] top-[50%] text-white"
+                        className="icon icon-tabler icons-tabler-outline icon-tabler-checks absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-white"
                       >
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M7 12l5 5l10 -10" />
@@ -134,7 +148,7 @@ const EditSpecific = ({
           <div className="flex w-full justify-center gap-4">
             <Button
               disabled={load}
-              className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 disabled:text-neutral-500 shadow"
+              className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 shadow disabled:text-neutral-500"
               onClick={() => setIsOpen(false)}
             >
               Cancel

@@ -10,12 +10,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaMinus } from "react-icons/fa6";
+import { useToast } from "../ui/use-toast";
 
 const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [load, setLoad] = useState(false);
   const [interval, setInterval] = useState<number>(currentInterval || 0);
   const [newInterval, setNewInterval] = useState<number>(currentInterval || 0);
+  const { toast } = useToast();
 
   const changeInterval = async () => {
     setLoad(true);
@@ -26,7 +28,7 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
           method: "POST",
           body: JSON.stringify({
             data: newInterval,
-            fieldName: 'carouselInterval'
+            fieldName: "carouselInterval",
           }),
           headers: {
             "content-type": "application/json",
@@ -36,10 +38,19 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
       if (res.ok) {
         setInterval(newInterval);
         setIsOpen(false);
+        toast({
+          title: "Interval updation successfull",
+          description: `Interval has been updated to ${newInterval}sec`,
+          className: "text-black",
+        });
       }
     } catch (error) {
       console.log(error);
-      alert("Error Occured !");
+      toast({
+        variant: "destructive",
+        title: "Error Occured",
+        description: error.message,
+      });
     }
     setLoad(false);
   };
@@ -89,7 +100,7 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
               <div className="flex w-full justify-center gap-4">
                 <Button
                   disabled={load}
-                  className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 disabled:text-neutral-500 shadow"
+                  className="rounded-[0.4rem] bg-neutral-200 text-neutral-800 shadow disabled:text-neutral-500"
                   onClick={() => setIsOpen(false)}
                 >
                   Cancel

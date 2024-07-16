@@ -13,6 +13,7 @@ import { MediaObject, Settings } from "@/types";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useToast } from "../ui/use-toast";
 
 const DeleteMedia = ({
   media,
@@ -25,6 +26,7 @@ const DeleteMedia = ({
   const [load, setLoad] = useState(false);
   const [selectedImage, setSelectedImage] = useState({ key: "" });
   const Router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!isOpen) {
@@ -55,10 +57,19 @@ const DeleteMedia = ({
       if (res.ok) {
         setIsOpen(false);
         Router.refresh();
+        toast({
+          title: "Deletion Successfull",
+          description: "Images have been deleted permanently.",
+          className: "text-black",
+        });
       }
     } catch (error) {
       console.log(error);
-      alert("Error Occured !");
+      toast({
+        variant: "destructive",
+        title: "Error Occured",
+        description: error.message,
+      });
     }
     setLoad(false);
   };
@@ -86,7 +97,7 @@ const DeleteMedia = ({
               You can delete only one image at a time.
             </p>
           </AlertDialogTitle>
-          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 p-2 bg-white shadow overflow-y-scroll">
+          <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 overflow-y-scroll bg-white p-2 shadow">
             {!media[0] ? (
               <AiOutlineLoading
                 size={20}
@@ -111,7 +122,7 @@ const DeleteMedia = ({
                     {selected && (
                       <RiDeleteBin6Line
                         size={40}
-                        className="absolute left-[50%] top-[50%] text-white"
+                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-white"
                       />
                     )}
                   </button>

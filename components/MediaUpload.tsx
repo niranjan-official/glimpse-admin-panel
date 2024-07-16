@@ -9,10 +9,12 @@ import { storage } from "@/firebase/config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 const MediaUpload = ({ addImage }) => {
   const [images, setImages] = useState<any>([]);
   const [uploading, setUploading] = useState(false);
+  const { toast } = useToast();
 
   const Router = useRouter();
 
@@ -62,10 +64,16 @@ const MediaUpload = ({ addImage }) => {
             getDownloadURL(uploadTask.snapshot.ref).then(
               async (downloadURL) => {
                 console.log("File available at", downloadURL);
-                const res = await addImage({imgSrc: downloadURL, imgRef: `img-${image.id}`});
+                const res = await addImage({
+                  imgSrc: downloadURL,
+                  imgRef: `img-${image.id}`,
+                });
                 if (res.ok) {
                   console.log("Image added successfully");
                   Router.refresh();
+                  toast({
+                    title: "Images have been added successfully",
+                  });
                 }
                 resolve(downloadURL);
               },
@@ -80,6 +88,11 @@ const MediaUpload = ({ addImage }) => {
       console.log("All files uploaded", downloadURLs);
     } catch (error) {
       console.error("Error uploading files", error);
+      toast({
+        variant: "destructive",
+        title: "Error Occured",
+        description: error.message,
+      });
     } finally {
       setUploading(false);
     }
@@ -97,10 +110,9 @@ const MediaUpload = ({ addImage }) => {
         >
           Upload
           {uploading ? (
-
             <AiOutlineLoading
               size={20}
-              className="animate-spin text-white/80 ml-2"
+              className="ml-2 animate-spin text-white/80"
             />
           ) : (
             <MdFileUpload size={20} className="text-white/80" />
