@@ -6,12 +6,12 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: any) {
   try {
-    const image = await req.json();
+    const media = await req.json();
 
     const [deleteData, deleteSource, deleteModeData] = await Promise.all([
-      deleteImgData(image.key),
-      deleteImageSource(image.imgRef),
-      deleteFromModes(image.key, image.settings),
+      deleteImgData(media.key),
+      deleteImageSource(media.mediaRef),
+      deleteFromModes(media.key, media.settings),
     ]);
 
     if (deleteData.ok && deleteSource.ok && deleteModeData.ok) {
@@ -28,8 +28,8 @@ export async function POST(req: any) {
   }
 }
 
-const deleteImageSource = async (imgRef: string) => {
-  const desertRef = ref(storage, `images/${imgRef}`);
+const deleteImageSource = async (mediaRef: string) => {
+  const desertRef = ref(storage, `images/${mediaRef}`);
   try {
     await deleteObject(desertRef);
     return { ok: true };

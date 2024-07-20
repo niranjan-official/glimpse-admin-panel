@@ -45,7 +45,7 @@ const MediaUpload = ({ addMedia }) => {
   const uploadFiles = async () => {
     setUploading(true);
     const uploadPromises = images.map((image: any) => {
-      const storageRef = ref(storage, `images/img-${image.id}`);
+      const storageRef = ref(storage, `images/${image.type}-${image.id}`);
       const uploadTask = uploadBytesResumable(storageRef, image.file);
 
       return new Promise((resolve, reject) => {
