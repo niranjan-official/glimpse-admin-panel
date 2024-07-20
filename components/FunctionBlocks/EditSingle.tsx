@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdModeEditOutline, MdOutlineVideocam } from "react-icons/md";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -113,12 +113,21 @@ const EditSingle = ({
                         alt="..."
                       />
                     ) : item.mediaType === "video" ? (
-                      <video
-                        width={100}
-                        height={70}
-                        className={`h-full w-auto ${selected && "opacity-40"}`}
-                        src={item.mediaSrc}
-                      />
+                      <div className="relative h-full w-full">
+                        <video
+                          width={100}
+                          height={70}
+                          className={`h-full w-auto ${selected && "opacity-40"}`}
+                          src={item.mediaSrc}
+                          muted
+                          autoPlay={false}
+                          controls={false}
+                        />
+                        <MdOutlineVideocam
+                          size={30}
+                          className="absolute right-2 top-2 text-white"
+                        />
+                      </div>
                     ) : null}
                     {selected && (
                       <svg

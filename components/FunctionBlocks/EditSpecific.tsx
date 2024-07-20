@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdModeEditOutline, MdOutlineVideocam } from "react-icons/md";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -23,9 +23,7 @@ const EditSpecific = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [load, setLoad] = useState(false);
-  const [selectedMedia, setSelectedMedia] = useState(
-    settings.multiMediaStore,
-  );
+  const [selectedMedia, setSelectedMedia] = useState(settings.multiMediaStore);
   const Router = useRouter();
   const { toast } = useToast();
 
@@ -38,7 +36,7 @@ const EditSpecific = ({
   const editSpecific = async () => {
     setLoad(true);
     try {
-      const res = await fetch('/api/update-settings', {
+      const res = await fetch("/api/update-settings", {
         method: "POST",
         body: JSON.stringify({
           data: selectedMedia,
@@ -53,7 +51,8 @@ const EditSpecific = ({
         Router.refresh();
         toast({
           title: "Edit: 'Specific' mode",
-          description: "Media in 'specific' mode have been successfully edited.",
+          description:
+            "Media in 'specific' mode have been successfully edited.",
           className: "text-black",
         });
       }
@@ -123,12 +122,21 @@ const EditSpecific = ({
                         alt="..."
                       />
                     ) : item.mediaType === "video" ? (
-                      <video
-                        width={100}
-                        height={70}
-                        className={`h-full w-auto ${selected && "opacity-40"}`}
-                        src={item.mediaSrc}
-                      />
+                      <div className="relative h-full w-full">
+                        <video
+                          width={100}
+                          height={70}
+                          className={`h-full w-auto ${selected && "opacity-40"}`}
+                          src={item.mediaSrc}
+                          muted
+                          autoPlay={false}
+                          controls={false}
+                        />
+                        <MdOutlineVideocam
+                          size={30}
+                          className="absolute right-2 top-2 text-white"
+                        />
+                      </div>
                     ) : null}
                     {selected && (
                       <svg

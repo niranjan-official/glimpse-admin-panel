@@ -13,6 +13,7 @@ import { MediaObject, Settings } from "@/types";
 import { RiDeleteBinFill, RiDeleteBin6Line } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
+import { MdOutlineVideocam } from "react-icons/md";
 
 const DeleteMedia = ({
   media,
@@ -117,12 +118,21 @@ const DeleteMedia = ({
                         alt="..."
                       />
                     ) : item.mediaType === "video" ? (
-                      <video
-                        width={100}
-                        height={70}
-                        className={`h-full w-auto ${selected && "opacity-40"}`}
-                        src={item.mediaSrc}
-                      />
+                      <div className="relative h-full w-full">
+                        <video
+                          width={100}
+                          height={70}
+                          className={`h-full w-auto ${selected && "opacity-40"}`}
+                          src={item.mediaSrc}
+                          muted
+                          autoPlay={false}
+                          controls={false}
+                        />
+                        <MdOutlineVideocam
+                          size={30}
+                          className="absolute right-2 top-2 text-white"
+                        />
+                      </div>
                     ) : null}
                     {selected && (
                       <RiDeleteBin6Line
