@@ -22,19 +22,16 @@ const IntervalBlock = ({ currentInterval }: { currentInterval?: number }) => {
   const changeInterval = async () => {
     setLoad(true);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-settings`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            data: newInterval,
-            fieldName: "carouselInterval",
-          }),
-          headers: {
-            "content-type": "application/json",
-          },
+      const res = await fetch('/api/update-settings', {
+        method: "POST",
+        body: JSON.stringify({
+          data: newInterval,
+          fieldName: "carouselInterval",
+        }),
+        headers: {
+          "content-type": "application/json",
         },
-      );
+      });
       if (res.ok) {
         setInterval(newInterval);
         setIsOpen(false);

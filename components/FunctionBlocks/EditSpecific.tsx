@@ -23,7 +23,7 @@ const EditSpecific = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [load, setLoad] = useState(false);
-  const [selectedImages, setSelectedImages] = useState(
+  const [selectedMedia, setSelectedMedia] = useState(
     settings.multiMediaStore,
   );
   const Router = useRouter();
@@ -31,32 +31,29 @@ const EditSpecific = ({
 
   useEffect(() => {
     if (!isOpen) {
-      setSelectedImages(settings.multiMediaStore);
+      setSelectedMedia(settings.multiMediaStore);
     }
   }, [isOpen]);
 
   const editSpecific = async () => {
     setLoad(true);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/update-settings`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            data: selectedImages,
-            fieldName: "multiMediaStore",
-          }),
-          headers: {
-            "content-type": "application/json",
-          },
+      const res = await fetch('/api/update-settings', {
+        method: "POST",
+        body: JSON.stringify({
+          data: selectedMedia,
+          fieldName: "multiMediaStore",
+        }),
+        headers: {
+          "content-type": "application/json",
         },
-      );
+      });
       if (res.ok) {
         setIsOpen(false);
         Router.refresh();
         toast({
           title: "Edit: 'Specific' mode",
-          description: "Images in 'specific' have been successfully edited.",
+          description: "Media in 'specific' mode have been successfully edited.",
           className: "text-black",
         });
       }
@@ -64,7 +61,7 @@ const EditSpecific = ({
       console.log(error);
       toast({
         variant: "destructive",
-        title: "Error Occured",
+        title: "Error Occurred",
         description: error.message,
       });
     }
@@ -73,9 +70,9 @@ const EditSpecific = ({
 
   const handleSpecific = (key: string, selected: boolean) => {
     if (selected) {
-      setSelectedImages((prevArray) => prevArray.filter((str) => str !== key));
+      setSelectedMedia((prevArray) => prevArray.filter((str) => str !== key));
     } else {
-      setSelectedImages((prevArray) => [...prevArray, key]);
+      setSelectedMedia((prevArray) => [...prevArray, key]);
     }
   };
 
@@ -97,9 +94,9 @@ const EditSpecific = ({
       <AlertDialogContent className="bg-background" asChild>
         <div className="flex flex-col items-center justify-center text-black">
           <AlertDialogTitle className="text-center">
-            <p className="text-2xl">Set the Images</p>
+            <p className="text-2xl">Set the Media</p>
             <p className="text-sm font-normal text-neutral-400">
-              Click on the images which is to be selected
+              Click on the media which is to be selected
             </p>
           </AlertDialogTitle>
           <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 overflow-y-scroll bg-white p-2 shadow">
@@ -109,21 +106,30 @@ const EditSpecific = ({
                 className="my-8 animate-spin text-neutral-800/80"
               />
             ) : (
-              media.map((image, index) => {
-                const selected = selectedImages.includes(image.key);
+              media.map((item, index) => {
+                const selected = selectedMedia.includes(item.key);
                 return (
                   <button
-                    onClick={() => handleSpecific(image.key, selected)}
+                    onClick={() => handleSpecific(item.key, selected)}
                     key={index}
                     className="relative flex h-20 w-[calc(50%-0.25rem)] justify-center bg-zinc-800"
                   >
-                    <Image
-                      width={100}
-                      height={70}
-                      className={`h-full w-auto ${selected && "opacity-40"}`}
-                      src={image.imgSrc}
-                      alt="..."
-                    />
+                    {item.mediaType === "image" ? (
+                      <Image
+                        width={100}
+                        height={70}
+                        className={`h-full w-auto ${selected && "opacity-40"}`}
+                        src={item.mediaSrc}
+                        alt="..."
+                      />
+                    ) : item.mediaType === "video" ? (
+                      <video
+                        width={100}
+                        height={70}
+                        className={`h-full w-auto ${selected && "opacity-40"}`}
+                        src={item.mediaSrc}
+                      />
+                    ) : null}
                     {selected && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

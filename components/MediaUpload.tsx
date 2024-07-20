@@ -11,7 +11,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { useToast } from "./ui/use-toast";
 
-const MediaUpload = ({ addImage }) => {
+const MediaUpload = ({ addMedia }) => {
   const [images, setImages] = useState<any>([]);
   const [uploading, setUploading] = useState(false);
   const { toast } = useToast();
@@ -21,11 +21,19 @@ const MediaUpload = ({ addImage }) => {
   const onDrop = useCallback((acceptedFiles: any) => {
     acceptedFiles.map((file: any) => {
       const reader = new FileReader();
+      const isImage = file.type.startsWith("image/");
+      const isVideo = file.type.startsWith("video/");
 
       reader.onload = function (e) {
         setImages((prevState: any) => [
           ...prevState,
-          { id: nanoid(), src: e.target?.result, size: file.size, file },
+          {
+            id: nanoid(),
+            src: e.target?.result,
+            size: file.size,
+            file,
+            type: isImage ? "image" : isVideo ? "video" : "unknown",
+          },
         ]);
       };
 
@@ -64,16 +72,17 @@ const MediaUpload = ({ addImage }) => {
             getDownloadURL(uploadTask.snapshot.ref).then(
               async (downloadURL) => {
                 console.log("File available at", downloadURL);
-                const res = await addImage({
-                  imgSrc: downloadURL,
-                  imgRef: `img-${image.id}`,
+                const res = await addMedia({
+                  mediaSrc: downloadURL,
+                  mediaRef: `${image.type}-${image.id}`,
+                  mediaType: image.type,
                 });
                 if (res.ok) {
-                  console.log("Image added successfully");
+                  console.log("File added successfully");
                   Router.refresh();
                   toast({
-                    title: "Images have been added successfully",
-                    className: "text-black"
+                    title: "Files have been added successfully",
+                    className: "text-black",
                   });
                 }
                 resolve(downloadURL);

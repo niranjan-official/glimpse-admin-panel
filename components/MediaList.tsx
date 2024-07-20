@@ -59,7 +59,7 @@ const MediaList = ({ media, settings }: MediaListProps) => {
             <p className="text-3xl font-extrabold text-neutral-300 text-center ">No Images</p>
           ):(
         filteredMedia.map((media, index) => (
-          <MediaBlock key={index} src={media.imgSrc} />
+          <MediaBlock key={index} src={media.mediaSrc} type={media.mediaType} />
         ))
           )
         }
