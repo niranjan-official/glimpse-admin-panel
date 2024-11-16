@@ -10,10 +10,10 @@ import { Button } from "../ui/button";
 import { AiOutlineLoading } from "react-icons/ai";
 import Image from "next/image";
 import { MediaObject, Settings } from "@/types";
-import { RiDeleteBinFill } from "react-icons/ri";
+import { RiDeleteBinFill, RiDeleteBin6Line } from "react-icons/ri";
 import { useRouter } from "next/navigation";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { useToast } from "../ui/use-toast";
+import { MdOutlineVideocam } from "react-icons/md";
 
 const DeleteMedia = ({
   media,
@@ -24,42 +24,39 @@ const DeleteMedia = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [load, setLoad] = useState(false);
-  const [selectedImage, setSelectedImage] = useState({ key: "" });
+  const [selectedMedia, setSelectedMedia] = useState({ key: "" });
   const Router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
     if (!isOpen) {
-      setSelectedImage({ key: "" });
+      setSelectedMedia({ key: "" });
     }
   }, [isOpen]);
 
-  const deleteImage = async () => {
+  const deleteMedia = async () => {
     if (
       !confirm(
-        "Deleting Image will remove it permanently from all modes. Are you Sure ?",
+        "Deleting Media will remove it permanently from all modes. Are you sure?",
       )
     ) {
       return;
     }
     setLoad(true);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/delete-image`,
-        {
-          method: "POST",
-          body: JSON.stringify({ settings, ...selectedImage }),
-          headers: {
-            "content-type": "application/json",
-          },
+      const res = await fetch('/api/delete-media', {
+        method: "POST",
+        body: JSON.stringify({ settings, ...selectedMedia }),
+        headers: {
+          "content-type": "application/json",
         },
-      );
+      });
       if (res.ok) {
         setIsOpen(false);
         Router.refresh();
         toast({
-          title: "Deletion Successfull",
-          description: "Images have been deleted permanently.",
+          title: "Deletion Successful",
+          description: "Media has been deleted permanently.",
           className: "text-black",
         });
       }
@@ -67,7 +64,7 @@ const DeleteMedia = ({
       console.log(error);
       toast({
         variant: "destructive",
-        title: "Error Occured",
+        title: "Error Occurred",
         description: error.message,
       });
     }
@@ -81,7 +78,7 @@ const DeleteMedia = ({
           <div className="text-left">
             <h3 className="text-xl font-extrabold">Delete Media</h3>
             <p className="text-sm text-neutral-400">
-              Delete images permanently
+              Delete media permanently
             </p>
           </div>
           <div className="flex items-center rounded-[0.5rem] bg-primary-red/20 p-2 text-primary-red">
@@ -92,9 +89,9 @@ const DeleteMedia = ({
       <AlertDialogContent className="bg-background" asChild>
         <div className="flex flex-col items-center justify-center text-black">
           <AlertDialogTitle className="text-center">
-            <p className="text-2xl">Select the image</p>
+            <p className="text-2xl">Select the Media</p>
             <p className="text-sm font-normal text-neutral-400">
-              You can delete only one image at a time.
+              You can delete only one media item at a time.
             </p>
           </AlertDialogTitle>
           <div className="flex max-h-[60vh] w-full flex-wrap justify-center gap-2 overflow-y-scroll bg-white p-2 shadow">
@@ -104,21 +101,39 @@ const DeleteMedia = ({
                 className="my-8 animate-spin text-neutral-800/80"
               />
             ) : (
-              media.map((image, index) => {
-                const selected = image.key === selectedImage?.key;
+              media.map((item, index) => {
+                const selected = item.key === selectedMedia?.key;
                 return (
                   <button
-                    onClick={() => setSelectedImage(image)}
+                    onClick={() => setSelectedMedia(item)}
                     key={index}
                     className="relative flex h-20 w-[calc(50%-0.25rem)] justify-center bg-zinc-800"
                   >
-                    <Image
-                      width={100}
-                      height={70}
-                      className={`h-full w-auto ${selected && "opacity-40"}`}
-                      src={image.imgSrc}
-                      alt="..."
-                    />
+                    {item.mediaType === "image" ? (
+                      <Image
+                        width={100}
+                        height={70}
+                        className={`h-full w-auto ${selected && "opacity-40"}`}
+                        src={item.mediaSrc}
+                        alt="..."
+                      />
+                    ) : item.mediaType === "video" ? (
+                      <div className="relative h-full w-full">
+                        <video
+                          width={100}
+                          height={70}
+                          className={`h-full w-auto ${selected && "opacity-40"}`}
+                          src={item.mediaSrc}
+                          muted
+                          autoPlay={false}
+                          controls={false}
+                        />
+                        <MdOutlineVideocam
+                          size={30}
+                          className="absolute right-2 top-2 text-white"
+                        />
+                      </div>
+                    ) : null}
                     {selected && (
                       <RiDeleteBin6Line
                         size={40}
@@ -141,7 +156,7 @@ const DeleteMedia = ({
             <Button
               disabled={load}
               className="w-36 rounded-[0.4rem] bg-primary-red shadow hover:bg-red-600"
-              onClick={deleteImage}
+              onClick={deleteMedia}
             >
               {load ? (
                 <AiOutlineLoading

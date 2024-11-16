@@ -43,18 +43,23 @@ const getSettings = async (): Promise<Settings | undefined> => {
   return;
 };
 
-const addImage = async ({
-  imgSrc,
-  imgRef,
+const addMedia = async ({
+  mediaSrc,
+  mediaRef,
+  mediaType
 }: {
-  imgSrc: string;
-  imgRef: string;
+  mediaSrc: string;
+  mediaRef: string;
+  mediaType: string;
 }) => {
   "use server";
   try {
+    console.log(mediaRef, mediaSrc, mediaType);
+    
     const docRef = await addDoc(collection(db, "media"), {
-      imgSrc: imgSrc,
-      imgRef: imgRef,
+      mediaSrc: mediaSrc,
+      mediaRef: mediaRef,
+      mediaType: mediaType
     });
     console.log("Document written with ID: ", docRef.id);
     return { ok: true };
@@ -68,7 +73,7 @@ const page = async () => {
 
   return (
     <div className="flex flex-col p-4 md:p-16 md:pt-24 pb-16 pt-24 text-black">
-      <MediaUpload addImage={addImage} />
+      <MediaUpload addMedia={addMedia} />
       <div className="mt-4 flex w-full flex-col gap-4">
         <EditSingle media={media} settings={settings} />
         <EditSpecific media={media} settings={settings} />
