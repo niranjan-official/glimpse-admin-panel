@@ -4,29 +4,27 @@ import { MdOutlineVideocam } from "react-icons/md";
 
 const MediaBlock = ({ src, type }: { src: string; type: string }) => {
   return (
-    <div className="flex h-24 w-[calc(50%-0.25rem)] justify-center overflow-hidden bg-zinc-800">
+    <div className="aspect-w-1 aspect-h-1 flex justify-center relative w-full bg-zinc-800">
       {type === "image" ? (
         <Image
           src={src}
-          className="h-full w-auto"
+          className="h-full w-auto object-contain"
           width={100}
           height={60}
           alt="..."
         />
       ) : type === "video" ? (
-        <div className="relative w-full h-full">
+        <div className="relative h-full w-full">
           <video
             src={src}
-            className="h-full w-auto"
-            width={100}
-            height={60}
+            className="h-full w-auto object-contain"
             muted
             autoPlay={false}
             controls={false}
           />
           <MdOutlineVideocam
             size={30}
-            className="absolute top-2 right-2 text-white"
+            className="absolute right-2 top-2 text-white"
           />
         </div>
       ) : null}

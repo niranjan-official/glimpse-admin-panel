@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Tab from "@/components/Tab";
 import { Toaster } from "@/components/ui/toaster"
 import { Suspense } from "react";
-import Loading from "@/app/Loading";
+import Loading from "@/app/loading";
 
 const poppins = Poppins({ subsets: ["latin"], weight: '400' });
 
