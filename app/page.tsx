@@ -44,9 +44,10 @@ const getSettings = async (): Promise<Settings | undefined> => {
 };
 export default async function Home() {
   const [media, settings] = await Promise.all([getMedia(), getSettings()]);
+  console.log(media);
 
   return (
-    <div className="flex flex-col p-4 pb-16 pt-24 text-black">
+    <div className="flex flex-col p-4 md:p-16 md:pt-24 pb-16 pt-24 text-black">
       <div className="flex flex-wrap gap-4">
         <DisplayBlock
           header="Images"

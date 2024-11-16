@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Tab from "@/components/Tab";
 import { Toaster } from "@/components/ui/toaster"
+import { Suspense } from "react";
+import Loading from "@/app/Loading";
 
 const poppins = Poppins({ subsets: ["latin"], weight: '400' });
 
@@ -21,7 +23,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <Header/>
-        {children}
+        <Suspense fallback={<Loading/>}>
+          {children}
+        </Suspense>
         <Tab/>
         <Toaster />
       </body>

@@ -67,7 +67,7 @@ const page = async () => {
   const [media, settings] = await Promise.all([getMedia(), getSettings()]);
 
   return (
-    <div className="flex flex-col p-4 pb-16 pt-24 text-black">
+    <div className="flex flex-col p-4 md:p-16 md:pt-24 pb-16 pt-24 text-black">
       <MediaUpload addImage={addImage} />
       <div className="mt-4 flex w-full flex-col gap-4">
         <EditSingle media={media} settings={settings} />
